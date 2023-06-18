@@ -1,15 +1,10 @@
 <template>
   <!-- <HelloWorld /> -->
-  <v-row>
-    <v-col align="center">
-      <embedded-video />
-    </v-col>
-  </v-row>
+
+  <video src="@/assets/recording.webm" height="400" controls />
 </template>
 
 <script lang="ts" setup>
-import EmbeddedVideo from "@/components/EmbeddedVideo.vue";
-
 // import { ref } from "vue";
 // import HelloWorld from "@/components/HelloWorld.vue";
 </script>
