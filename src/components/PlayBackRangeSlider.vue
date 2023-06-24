@@ -1,0 +1,36 @@
+<template>
+  <v-range-slider
+    v-model="play_back_range"
+    :min="0"
+    :max="maximum_play_frames"
+    :step="maximum_play_frames / frame_rate"
+  />
+</template>
+
+<script lang="ts" setup>
+import { computed } from "vue";
+interface Props {
+  modelValue: number[];
+  frame_rate: number;
+  maximum_play_time: number;
+}
+interface Emits {
+  (e: "update:modelValue", modelValue: number[]): void;
+}
+const props = defineProps<Props>();
+const emits = defineEmits<Emits>();
+
+const maximum_play_frames = computed(() => {
+  return props.maximum_play_time;
+});
+
+const play_back_range = computed<number[]>({
+  get() {
+    return props.modelValue;
+    // * props.frame_rate
+  },
+  set(newVal) {
+    emits("update:modelValue", newVal);
+  },
+});
+</script>
