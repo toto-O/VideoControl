@@ -28,13 +28,15 @@ function set_restart_position(params: any) {
   if (params.target.currentTime > props.playback_range[1]) {
     params.target.pause();
     params.target.onplay = () => {
-      params.target.currentTime = props.playback_range[0];
+      if (params.target.currentTime > props.playback_range[1]) {
+        params.target.currentTime = props.playback_range[0];
+      }
     };
   }
 }
 
 function check_full_playback_time(params: any) {
-  // if (params.target.duration !== Infinity) return
+  if (params.target.duration !== Infinity) return check_element(params);
   params.target.currentTime = 60000;
   params.target.onseeked = () => {
     params.target.onseeked = undefined;
