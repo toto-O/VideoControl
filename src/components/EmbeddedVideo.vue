@@ -1,6 +1,4 @@
 <template>
-  <!-- <HelloWorld /> -->
-
   <video
     src="@/assets/recording.webm"
     height="400"
@@ -11,8 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-// import { ref } from "vue";
-
 interface Props {
   playback_range: number[];
   // frame_rate: number;
@@ -37,7 +33,7 @@ function set_restart_position(params: any) {
 
 function check_full_playback_time(params: any) {
   if (params.target.duration === Infinity) return pass_video_duration(params);
-  set_playback_range(params);
+  else return set_playback_range(params);
 }
 
 function pass_video_duration(params: any) {
@@ -50,7 +46,6 @@ function pass_video_duration(params: any) {
 }
 
 function set_playback_range(params: any) {
-  console.log(params);
   emits("set_maximum_play_time", params.target.duration);
   emits("set_playback_range", [0, params.target.duration]);
 }
