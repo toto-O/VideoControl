@@ -36,15 +36,20 @@ function set_restart_position(params: any) {
 }
 
 function check_full_playback_time(params: any) {
-  if (params.target.duration !== Infinity) return check_element(params);
+  if (params.target.duration === Infinity) return pass_video_duration(params);
+  set_playback_range(params);
+}
+
+function pass_video_duration(params: any) {
   params.target.currentTime = 60000;
   params.target.onseeked = () => {
     params.target.onseeked = undefined;
     params.target.currentTime = 0;
-    return check_element(params);
+    return set_playback_range(params);
   };
 }
-function check_element(params: any) {
+
+function set_playback_range(params: any) {
   console.log(params);
   emits("set_maximum_play_time", params.target.duration);
   emits("set_playback_range", [0, params.target.duration]);
