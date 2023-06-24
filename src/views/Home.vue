@@ -11,7 +11,6 @@
         :frame_rate="frame_rate"
         :maximum_play_time="maximum_play_time"
       />
-      {{ value }}
     </v-col>
   </v-row>
 </template>
