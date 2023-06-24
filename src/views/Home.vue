@@ -2,9 +2,9 @@
   <v-row>
     <v-col align="center">
       <embedded-video
-        :frame_rate="frame_rate"
+        :playback_range="value"
         @set_maximum_play_time="set_maximum_play_time"
-        @set_play_range="set_play_range"
+        @set_playback_range="set_playback_range"
       />
       <play-back-range-slider
         v-model="value"
@@ -28,7 +28,7 @@ const maximum_play_time = ref<number>(0);
 function set_maximum_play_time(params: number) {
   maximum_play_time.value = params;
 }
-function set_play_range(play_range: number[]) {
-  value.value = play_range;
+function set_playback_range(playback_range: number[]) {
+  value.value = playback_range;
 }
 </script>

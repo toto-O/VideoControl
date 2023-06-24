@@ -6,6 +6,7 @@
     height="400"
     controls
     @loadedmetadata="check_full_playback_time($event)"
+    @timeupdate="set_restart_position($event)"
   />
 </template>
 
@@ -13,16 +14,27 @@
 // import { ref } from "vue";
 
 interface Props {
-  frame_rate: number;
+  playback_range: number[];
+  // frame_rate: number;
 }
 interface Emits {
-  (e: "set_play_range", play_range: number[]): void;
+  (e: "set_playback_range", playback_range: number[]): void;
   (e: "set_maximum_play_time", maximum_play_time: number): void;
 }
 const props = defineProps<Props>();
 const emits = defineEmits<Emits>();
 
+function set_restart_position(params: any) {
+  if (params.target.currentTime > props.playback_range[1]) {
+    params.target.pause();
+    params.target.onplay = () => {
+      params.target.currentTime = props.playback_range[0];
+    };
+  }
+}
+
 function check_full_playback_time(params: any) {
+  // if (params.target.duration !== Infinity) return
   params.target.currentTime = 60000;
   params.target.onseeked = () => {
     params.target.onseeked = undefined;
@@ -33,7 +45,6 @@ function check_full_playback_time(params: any) {
 function check_element(params: any) {
   console.log(params);
   emits("set_maximum_play_time", params.target.duration);
-  // * props.frame_rate
-  emits("set_play_range", [0, params.target.duration]);
+  emits("set_playback_range", [0, params.target.duration]);
 }
 </script>
