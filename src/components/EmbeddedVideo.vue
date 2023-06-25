@@ -6,6 +6,8 @@
     controls
     @loadedmetadata="check_full_playback_time($event)"
     @timeupdate="set_restart_position($event)"
+    @play="play_video($event)"
+    @pause="pause_video($event)"
   />
 </template>
 
@@ -23,14 +25,9 @@ const props = defineProps<Props>();
 const emits = defineEmits<Emits>();
 
 function set_restart_position(params: any) {
-  if (params.target.currentTime > props.playback_range[1]) {
+  if (params.target.currentTime >= props.playback_range[1]) {
     params.target.pause();
     // 指定の再生終了地点まで到達したら、再生開始地点まで戻る
-    params.target.onplay = () => {
-      if (params.target.currentTime > props.playback_range[1]) {
-        pass_current_playback_position(props.playback_range[0]);
-      }
-    };
   }
 }
 
@@ -51,6 +48,16 @@ function pass_video_duration(params: any) {
 function set_playback_range(params: any) {
   emits("set_maximum_play_time", params.target.duration);
   emits("set_playback_range", [0, params.target.duration]);
+}
+
+function play_video(params: any) {
+  if (params.target.currentTime >= props.playback_range[1]) {
+    return pass_current_playback_position(props.playback_range[0]);
+  }
+  // pass_current_playback_position(params.target);
+}
+function pause_video(params: any) {
+  console.log(params.target.currentTime);
 }
 
 function pass_current_playback_position(current_time: number) {
